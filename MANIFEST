@@ -2,6 +2,7 @@ lib/Algorithm/Genetic/Diploid.pm
 lib/Algorithm/Genetic/Diploid/Base.pm
 lib/Algorithm/Genetic/Diploid/Chromosome.pm
 lib/Algorithm/Genetic/Diploid/Experiment.pm
+lib/Algorithm/Genetic/Diploid/Factory.pm
 lib/Algorithm/Genetic/Diploid/Gene.pm
 lib/Algorithm/Genetic/Diploid/Individual.pm
 lib/Algorithm/Genetic/Diploid/Logger.pm
