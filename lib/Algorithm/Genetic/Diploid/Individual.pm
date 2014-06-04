@@ -52,7 +52,7 @@ Getter and setter for the list of chromosomes
 sub chromosomes {
 	my $self = shift;
 	if ( @_ ) {
-		$log->info("assigning new chromosomes: @_");
+		$log->debug("assigning new chromosomes: @_");
 		$self->{'chromosomes'} = \@_;
 	}
 	return @{ $self->{'chromosomes'} }
@@ -66,12 +66,10 @@ Meiosis produces a gamete, i.e. n chromosomes that have mutated and recombined
 
 sub meiosis {
 	my $self = shift;
-	my $log = $self->logger;
-	$log->debug("going to create gametes");
 	
 	# this is basically mitosis: cloning of chromosomes
 	my @chro = map { $_->clone } $self->chromosomes;
-	$log->debug("have cloned chromosomes (meiosis II)");
+	$log->debug("have cloned ".scalar(@chro)." chromosomes (meiosis II)");
 	
 	# create pairs of homologous chromosomes, i.e. metafase
 	my @pairs;
@@ -101,7 +99,7 @@ Produces a new individual by mating the invocant with the argument
 
 sub breed {
 	my ( $self, $mate ) = @_;
-	$self->logger->debug("going to breed $self with $mate");
+	$log->debug("going to breed $self with $mate");
 	$self->_increment_cc;
 	$mate->_increment_cc;
 	__PACKAGE__->new( 
@@ -111,13 +109,13 @@ sub breed {
 
 =item phenotype
 
-Expresses all the genes and weighs them to produce a phenotype
+Expresses all the genes and weights them to produce a phenotype
 
 =cut
 
 sub phenotype {
 	my ( $self, $env ) = @_;
-	$self->logger->debug("computing phenotype in environment $env");
+	$log->debug("computing phenotype in environment $env");
 	if ( not defined $self->{'phenotype'} ) {
 		my @genes = map { $_->genes } $self->chromosomes;
 		my $total_weight = sum map { $_->weight } @genes;
@@ -138,7 +136,7 @@ sub fitness {
 	my $id = $self->id;
 	my $phenotype = $self->phenotype( $env );
 	my $diff = abs( $optimum - $phenotype );
-	$self->logger->debug("fitness of $id against optimum $optimum is $diff");
+	$log->debug("fitness of $id against optimum $optimum is $diff");
 	return $diff;
 }
 
